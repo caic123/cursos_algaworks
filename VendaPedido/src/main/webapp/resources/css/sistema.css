@@ -54,3 +54,12 @@ h1{
 	border: 1px solid #ccc;
 	margin-top: 8px;
 }
+
+.rotulo{
+	width: 150px;
+}
+
+/*Customização de uma classe do css do primefaces da parte de "td" (ui-panelgrid td)*/
+.ui-panelgrid td{
+	height: 34px;
+}
