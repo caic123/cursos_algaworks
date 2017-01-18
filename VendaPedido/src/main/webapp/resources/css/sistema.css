@@ -1,5 +1,9 @@
 @charset "utf-8";
 
+/* # -> id 
+   . -> classe do css
+*/
+
 body{
 	font-size: 12px;
 	font-family: Arial, Helvetica, sans-serif;
@@ -29,4 +33,24 @@ header > div{
 footer{
 	padding: 0px 8px;
 	margin-bottom: 10px;
+}
+
+h1{
+	font-size: 24px;
+	font-weight: 600;
+	padding: 0px;
+	margin: 0px;
+}
+
+#login-dialog{
+	width: 290px;
+	margin: auto;
+	margin-top: 150px;
+}
+
+.grid-login{
+	background-color: #fefefe;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	margin-top: 8px;
 }
