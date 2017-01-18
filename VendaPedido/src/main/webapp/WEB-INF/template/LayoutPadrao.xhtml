@@ -9,9 +9,19 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><ui:insert name="titulo">Sistema de pedidos de Venda</ui:insert></title>
         <h:outputStylesheet library="css" name="sistema.css"/>
+        
+        <h:outputScript library="js" name="jquery.maskMoney.js"/>
    </h:head>
    
    <h:body>
+   		<p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
+			<f:facet name="start">
+				<h:graphicImage library="images" name="loading.gif"/>
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value=""/>
+			</f:facet>
+		</p:ajaxStatus>
    	<header>
    		<div>
    			<h:link>
@@ -19,7 +29,7 @@
    			</h:link>
    		</div>
    	</header>
-   </h:body>
+   
    
    <div id="conteudo">
    <ui:insert name="corpo"/>
@@ -30,4 +40,16 @@
    <footer>
    	Curso Online de Sistemas Comerciais java EE com CDI, JPA e PrimeFaces - 
    </footer>
+   
+  <!-- FUNÇÃO do campo "Valor Unitario" da aba de Cadastro Produto -->
+   <script>
+   	function configurarMoeda() {
+		$(".moeda").maskMoney({decimal: ",", thousands: ".", allowZero: true}); // . = todos os componentes com a casse moeda - O nome poderia ser qualquer outro
+	}
+	$(document).ready(function(){
+		configurarMoeda();
+		});
+   </script>
+   
+   </h:body>
 </html>
