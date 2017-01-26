@@ -1,67 +1,63 @@
 @charset "utf-8";
 
-/* # -> id 
-   . -> classe do css
-*/
-
-body{
+body {
 	font-size: 12px;
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0px;
 	font-weight: normal;
 }
 
-header{
+header {
 	padding: 5px 0px;
-	margin-bottom: 20px; 
+	margin-bottom: 20px;
 	height: 30px;
-	color: #fff;
+	
 	background-color: #545454;
+	color: #fff;
+	
 	box-shadow: 0px 2px 2px #ccc;
 }
 
-/*O primeiro div que for do header - o primeiro div filho do header*/
-header > div{
-	margin-left: 8px;
+header > div {
+	margin-left: 8px
 }
 
-/*Como conteudo é um id do div, deve ficar #conteudo.*/
-#conteudo{
+#conteudo {
+	padding: 0px 8px
+}
+
+footer {
 	padding: 0px 8px;
+	margin-bottom: 10px
 }
 
-footer{
-	padding: 0px 8px;
-	margin-bottom: 10px;
-}
-
-h1{
+h1 {
 	font-size: 24px;
-	font-weight: 600;
+	font-weight: 500;
 	padding: 0px;
-	margin: 0px;
+	margin: 0px
 }
 
-#login-dialog{
+#login-dialog {
 	width: 290px;
 	margin: auto;
 	margin-top: 150px;
 }
 
-.grid-login{
-	background-color: #fefefe;
+.grid-login {
+	background-color: #f2f2f2;
 	border-radius: 8px;
 	border: 1px solid #ccc;
 	margin-top: 8px;
+	padding: 10px
 }
 
-.rotulo{
-	width: 150px;
+.rotulo {
+	width: 150px
 }
 
-/*Customização de uma classe do css do primefaces da parte de "td" (ui-panelgrid td)*/
-.ui-panelgrid td{
-	height: 34px;
+.ui-panelgrid td {
+	height: 34px
 }
 
 .ajax-status {
@@ -72,16 +68,16 @@ h1{
 	height: 35px
 }
 
-.ui-selectmanycheckbox td{
+.ui-selectmanycheckbox td {
 	border-width: 0px !important;
 	padding: 0px !important;
 }
 
-.ui-selectmanycheckbox td label{
-	
+.ui-selectmanycheckbox td label {
+	padding-right: 10px;
 }
 
-.produto-tabela input{
+.produto-tabela input {
 	width: 99%;
 }
 
@@ -118,6 +114,3 @@ h1{
     background: url(#{resource['images:seta-para-baixo.png']}) no-repeat;
 }
 /* Menu sistema fim */
-
-	
-}

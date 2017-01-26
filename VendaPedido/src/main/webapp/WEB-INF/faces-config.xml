@@ -5,4 +5,10 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
     version="2.1">
 
+	<factory>
+		<exception-handler-factory>
+			br.com.vendapedido.util.jsf.JsfExceptionHandlerFactory
+		</exception-handler-factory>
+	</factory>
+
 </faces-config>
