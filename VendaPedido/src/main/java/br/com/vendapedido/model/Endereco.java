@@ -1,5 +1,5 @@
 package br.com.vendapedido.model;
-
+ 
 import java.io.Serializable;
 
 import javax.persistence.Entity;
