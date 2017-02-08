@@ -13,7 +13,8 @@ public class Endereco implements Serializable{
 	private String cidade; 
 	private String uf; 
 	private String cep; 
-
+	private Cliente cliente; 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -64,7 +65,7 @@ public class Endereco implements Serializable{
 	}
 	public String getCidade() {
 		return cidade;
-	}
+	} 
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
@@ -80,5 +81,12 @@ public class Endereco implements Serializable{
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
 
 }
