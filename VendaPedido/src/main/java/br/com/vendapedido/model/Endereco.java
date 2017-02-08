@@ -2,12 +2,18 @@ package br.com.vendapedido.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Endereco implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	private String logradoudo;
+	private String logradouro;
 	private String numero;
 	private String complemento;
 	private String cidade; 
@@ -39,17 +45,19 @@ public class Endereco implements Serializable{
 		return true;
 	}
 	
+	@Id
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getLogradoudo() {
-		return logradoudo;
+	public String getLogradouro() {
+		return logradouro;
 	}
-	public void setLogradoudo(String logradoudo) {
-		this.logradoudo = logradoudo;
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
 	}
 	public String getNumero() {
 		return numero;
@@ -81,6 +89,8 @@ public class Endereco implements Serializable{
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
+	
+	@ManyToOne //muitos para um // muitos endereços possui um cliente, mas um cliente possui apenas um endereço
 	public Cliente getCliente() {
 		return cliente;
 	}

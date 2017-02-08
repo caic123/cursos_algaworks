@@ -4,6 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+@Entity //Informa que é uma entidade 
 public class Cliente implements Serializable{
 	 
 	private static final long serialVersionUID = 1L;
@@ -15,6 +23,8 @@ public class Cliente implements Serializable{
 		private TipoPessoa tipo; 
 		private List<Endereco> enderecos = new ArrayList<>();
 		
+		@Id //Chave primaria do banco de dados
+		@GeneratedValue //Auto-Incremento
 		public Long getId() {
 			return id;
 		}
@@ -43,7 +53,9 @@ public class Cliente implements Serializable{
 			return serialVersionUID;
 		}
 		
-		public List<Endereco> getEnderecos() {
+		//esse relacionamento @OneToMany é o enverso que foi criado no endereço assim coloca o "cliente" -> mappedBy - colocar o nome do atributo la no outro endereço(Endereço)
+		@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) //Um para muitos, um cliente possui apenas um endereço, mas um endereço possui varios clientes
+		public List<Endereco> getEnderecos() { //CascadeType -> quando salvar um cliente automaticamente vai persistir no endereço do cliente
 			return enderecos;
 		}
 		public void setEnderecos(List<Endereco> enderecos) {
