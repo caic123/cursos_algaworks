@@ -5,13 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity //Informa que é uma entidade 
+@Table(name = "cliente")
 public class Cliente implements Serializable{
 	 
 	private static final long serialVersionUID = 1L;
@@ -31,18 +36,24 @@ public class Cliente implements Serializable{
 		public void setId(Long id) {
 			this.id = id;
 		}
-		public String getNome() {
+		
+		@Column(nullable = false, length= 100)// O Atributo nome no banco de dados nao pode ser nulo, e o 
+		public String getNome() {// tamanho é de 100 caracteres. 
 			return nome;
 		}
 		public void setNome(String nome) {
 			this.nome = nome;
 		}
-		public String getEmail() {
+		
+		@Column(nullable = false, length = 255)// O Atributo email no banco de dados nao pode ser nulo, e o 
+		public String getEmail() {// tamanho é de 255 caracteres. 
 			return email;
 		}
 		public void setEmail(String email) {
 			this.email = email;
 		}
+		
+		@Column(name = "doc_receita_federal", nullable = false, length = 14)
 		public String getDocumentoReceitaFederal() {
 			return documentoReceitaFederal;
 		}
@@ -62,6 +73,8 @@ public class Cliente implements Serializable{
 			this.enderecos = enderecos;
 		}
 		
+		@Enumerated(EnumType.STRING)//Pegar o enum e faz com que as strings aparecem em palavras ao inves de numero 
+		@Column(nullable = false, length = 10)
 		public TipoPessoa getTipo() {
 			return tipo;
 		}
