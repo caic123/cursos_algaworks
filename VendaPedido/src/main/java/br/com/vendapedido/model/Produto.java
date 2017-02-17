@@ -13,6 +13,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import br.com.vendapedido.model.Categoria;
 import br.com.vendapedido.model.Produto;
@@ -39,7 +42,10 @@ public class Produto implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
+	//@NotBlank = espaço ignorado
+	@NotBlank
+	@Size(max = 80) // Nummero maximo de caracteres
 	@Column(nullable = false, length = 80)
 	public String getNome() {
 		return nome;
@@ -49,6 +55,7 @@ public class Produto implements Serializable {
 		this.nome = nome;
 	}
 
+	@NotBlank
 	@Column(nullable = false, length = 20, unique = true)
 	public String getSku() {
 		return sku;
@@ -58,6 +65,7 @@ public class Produto implements Serializable {
 		this.sku = sku == null ? null : sku.toUpperCase();
 	}
 
+	@NotNull
 	@Column(name="valor_unitario", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorUnitario() {
 		return valorUnitario;
@@ -66,6 +74,7 @@ public class Produto implements Serializable {
 	public void setValorUnitario(BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
+	//valor nulo = NotNull
 	@NotNull @Min(0) @Max(9999)
 	@Column(name="quantidade_estoque", nullable = false, length = 5)
 	public Integer getQuantidadeEstoque() {
@@ -76,6 +85,7 @@ public class Produto implements Serializable {
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "categoria_id", nullable = false)
 	public Categoria getCategoria() {
