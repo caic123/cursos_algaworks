@@ -11,7 +11,7 @@ import br.com.vendapedido.model.TipoPessoa;
 public class TesteCliente {
 
 	public static void main(String[] args) {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("PedidoPU");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("VendaPU");
 		EntityManager manager = factory.createEntityManager();
 		
 		EntityTransaction trx = manager.getTransaction();
