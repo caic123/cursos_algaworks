@@ -1,3 +1,4 @@
+//RECARREGA AS CATEGORIAS
 package br.com.vendapedido.repository;
 
 import java.io.Serializable;
@@ -17,6 +18,10 @@ public class Categorias implements Serializable{
 	
 	public List<Categoria> raizes(){
 		return manager.createQuery("from Categoria", Categoria.class).getResultList();
+	}
+	
+	public Categoria porId(Long id){
+		return manager.find(Categoria.class, id);//Buscar um Objeto a partir do ID
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named; 
 import javax.persistence.EntityManager;
+import javax.validation.constraints.NotNull;
 
 import br.com.vendapedido.model.Categoria;
 import br.com.vendapedido.model.Produto;
@@ -23,6 +24,7 @@ public class CadastroProdutoBean implements Serializable{
 	private Categorias categorias;
 	
 	private Produto produto;
+	private Categoria categoriaPai;
 	
 	private List<Categoria> categoriasRaizes;
 	
@@ -36,6 +38,7 @@ public class CadastroProdutoBean implements Serializable{
 	}
 	
 	public void salvar() {
+		System.out.println("Categoria pai selecionada: "+ categoriaPai.getDescricao());
 	}
 	
 	public Produto getProduto() {
@@ -48,6 +51,15 @@ public class CadastroProdutoBean implements Serializable{
 
 	public List<Categoria> getCategoriaRaizes() {
 		return categoriasRaizes;
+	}
+
+	@NotNull //Obrigar a seleção de categoria Pai
+	public Categoria getCategoriaPai() {
+		return categoriaPai;
+	}
+
+	public void setCategoriaPai(Categoria categoriaPai) {
+		this.categoriaPai = categoriaPai;
 	}
 
 }
