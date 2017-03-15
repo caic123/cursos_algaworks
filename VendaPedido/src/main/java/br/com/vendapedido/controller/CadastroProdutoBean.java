@@ -8,11 +8,10 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named; 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import br.com.vendapedido.model.Categoria;
 import br.com.vendapedido.model.Produto;
+import br.com.vendapedido.repository.Categorias;
 
 @Named
 @ViewScoped
@@ -21,7 +20,7 @@ public class CadastroProdutoBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private EntityManager manager;
+	private Categorias categorias;
 	
 	private Produto produto;
 	
@@ -33,7 +32,7 @@ public class CadastroProdutoBean implements Serializable{
 	
 	public void inicializar(){//VendaPU esta na persistence
 		//ResultList() -> Retorna uma lista
-		categoriasRaizes = manager.createQuery("from Categoria", Categoria.class).getResultList();
+		categoriasRaizes = categorias.raizes();
 	}
 	
 	public void salvar() {
