@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import br.com.vendapedido.model.Categoria;
 import br.com.vendapedido.model.Produto;
 import br.com.vendapedido.repository.Categorias;
+import br.com.vendapedido.util.jsf.FacesUtil;
 
 @Named
 @ViewScoped
@@ -27,6 +28,7 @@ public class CadastroProdutoBean implements Serializable{
 	private Categoria categoriaPai;
 	
 	private List<Categoria> categoriasRaizes;
+	private List<Categoria> subcategorias;
 	
 	public CadastroProdutoBean(){
 		produto = new Produto();
@@ -34,11 +36,19 @@ public class CadastroProdutoBean implements Serializable{
 	
 	public void inicializar(){//VendaPU esta na persistence
 		//ResultList() -> Retorna uma lista
-		categoriasRaizes = categorias.raizes();
+		//Verifica se a pagina não e postback -> se clicar no botão a pagina so vai carregar uma vez
+		if(FacesUtil.isNotPostback()){
+			categoriasRaizes = categorias.raizes();
+		}
+	}
+	
+	public void carregarSubcategorias(){
+		setSubcategorias(categorias.subcategoriasDe(categoriaPai));
 	}
 	
 	public void salvar() {
 		System.out.println("Categoria pai selecionada: "+ categoriaPai.getDescricao());
+		System.out.println("SubCategoria pai selecionada: "+ produto.getCategoria().getDescricao());
 	}
 	
 	public Produto getProduto() {
@@ -60,6 +70,14 @@ public class CadastroProdutoBean implements Serializable{
 
 	public void setCategoriaPai(Categoria categoriaPai) {
 		this.categoriaPai = categoriaPai;
+	}
+
+	public List<Categoria> getSubcategorias() {
+		return subcategorias;
+	}
+
+	public void setSubcategorias(List<Categoria> subcategorias) {
+		this.subcategorias = subcategorias;
 	}
 
 }

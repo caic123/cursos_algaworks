@@ -16,8 +16,16 @@ public class Categorias implements Serializable{
 	@Inject
 	private EntityManager manager;
 	
-	public List<Categoria> raizes(){
-		return manager.createQuery("from Categoria", Categoria.class).getResultList();
+	public List<Categoria> raizes(){//Pesquisa para listar a categoria na comboBox
+		return manager.createQuery("from Categoria where categoriaPai is null",
+				Categoria.class).getResultList();
+	}
+	
+	public List<Categoria> subcategoriasDe(Categoria categoriaPai){
+		//O parametro :raiz é o parametro que vai receber o resultado
+		return manager.createQuery("from Categoria where categoriaPai = :raiz", 
+				Categoria.class)
+				.setParameter("raiz", categoriaPai).getResultList();
 	}
 	
 	public Categoria porId(Long id){
