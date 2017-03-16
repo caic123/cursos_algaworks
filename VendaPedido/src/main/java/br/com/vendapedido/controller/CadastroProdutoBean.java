@@ -1,18 +1,18 @@
 package br.com.vendapedido.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named; 
-import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 
 import br.com.vendapedido.model.Categoria;
 import br.com.vendapedido.model.Produto;
 import br.com.vendapedido.repository.Categorias;
+import br.com.vendapedido.service.CadastroProdutoService;
 import br.com.vendapedido.util.jsf.FacesUtil;
 
 @Named
@@ -24,6 +24,9 @@ public class CadastroProdutoBean implements Serializable{
 	@Inject
 	private Categorias categorias;
 	
+	@Inject
+	private CadastroProdutoService cadastroProdutoService;
+	
 	private Produto produto;
 	private Categoria categoriaPai;
 	
@@ -31,7 +34,7 @@ public class CadastroProdutoBean implements Serializable{
 	private List<Categoria> subcategorias;
 	
 	public CadastroProdutoBean(){
-		produto = new Produto();
+		limpar();
 	}
 	
 	public void inicializar(){//VendaPU esta na persistence
@@ -47,8 +50,16 @@ public class CadastroProdutoBean implements Serializable{
 	}
 	
 	public void salvar() {
-		System.out.println("Categoria pai selecionada: "+ categoriaPai.getDescricao());
-		System.out.println("SubCategoria pai selecionada: "+ produto.getCategoria().getDescricao());
+		this.produto = cadastroProdutoService.salvar(this.produto);
+		limpar();
+		//A mensagem vai aparecer assim qeu terminar o processo
+		FacesUtil.addInfoMessage("Produto Salvo com sucesso!");
+	}
+	
+	private void limpar(){
+		produto = new Produto();
+		categoriaPai = null;
+		subcategorias = new ArrayList<>();
 	}
 	
 	public Produto getProduto() {
