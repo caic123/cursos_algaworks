@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import br.com.vendapedido.model.Produto;
+import br.com.vendapedido.repository.Produtos;
+import br.com.vendapedido.repository.filter.ProdutoFilter;
 
 @Named
 @ViewScoped
@@ -13,17 +18,35 @@ public class PesquisaProdutosBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<Integer> produtosFiltrados;
+	@Inject
+	private Produtos produtos;
 	
-	public PesquisaProdutosBean() {
-		produtosFiltrados = new ArrayList<>();
-		for (int i = 0; i < 50; i++) {
-			produtosFiltrados.add(i);
-		}
+	@Inject
+	private ProdutoFilter filtro;
+	private List<Produto> produtosFiltrados;
+	
+	public void pesquisar(){
+		produtosFiltrados = produtos.filtrados(filtro);
+	}
+	
+	public List<Produto> getProdutosFiltrados() {
+		return produtosFiltrados;
 	}
 
-	public List<Integer> getProdutosFiltrados() {
-		return produtosFiltrados;
+	public ProdutoFilter getFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(ProdutoFilter filtro) {
+		this.filtro = filtro;
+	}
+
+	public Produtos getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(Produtos produtos) {
+		this.produtos = produtos;
 	}
 	
 }

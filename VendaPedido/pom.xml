@@ -83,7 +83,15 @@
 			<version>2.1.21</version>
 			<scope>compile</scope>
 		</dependency>
-	</dependencies>
+	
+	<!-- Commons Lang (utilidades) -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+			<scope>compile</scope>
+		</dependency>
+    </dependencies>
 
 	<build>
 		<finalName>VendaPedido</finalName>
