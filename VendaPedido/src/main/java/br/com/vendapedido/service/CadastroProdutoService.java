@@ -5,20 +5,20 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 
-import br.com.vendapedido.service.NegocioException;
-
 import br.com.vendapedido.model.Produto;
 import br.com.vendapedido.repository.Produtos;
+import br.com.vendapedido.util.jpa.Transactional;
 
 // Usa-se serializable porque vai injetar o BEAN DENTRO do controlador que é do tipo @ViewScoped
 public class CadastroProdutoService implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
+ 
 	@Inject
 	private Produtos produtos;
 	
 	//Recebe o produto que é para salvar
+	@Transactional // Esse netodo vai ser executado dentro da transação "Transaction" do pacote jpa
 	public Produto salvar(Produto produto){
 		
 		Produto produtoExistente = produtos.porSku(produto.getSku());

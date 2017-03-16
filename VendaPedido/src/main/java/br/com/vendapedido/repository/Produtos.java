@@ -8,26 +8,22 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 
 import br.com.vendapedido.model.Produto;
+import br.com.vendapedido.util.jpa.Transactional;
 
 public class Produtos implements Serializable{
 
-	/**
+	/** 
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Inject
+	@Inject// Como se eu ja estiversse instanciado. ex: EntityManager manager = new EntityManager();
 	private EntityManager manager;
 
+	@Transactional
 	public Produto guardar(Produto produto) {
-		EntityTransaction trx = manager.getTransaction();
-		trx.begin();
 		
-		produto = manager.merge(produto);
-		
-		trx.commit();
-		
-		return produto;
+		return  manager.merge(produto);
 	}
 	
 	public Produto porSku(String sku) {

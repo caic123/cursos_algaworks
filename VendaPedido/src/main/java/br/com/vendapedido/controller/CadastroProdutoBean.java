@@ -21,10 +21,10 @@ public class CadastroProdutoBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	@Inject
+	@Inject //Como se eu ja estiversse instanciado. ex: Categorias categorias = new Categorias();
 	private Categorias categorias;
 	
-	@Inject
+	@Inject //Como se eu ja estiversse instanciado. ex: CadastroProdutoService cadastroProdutoService = new CadastroProdutoService();
 	private CadastroProdutoService cadastroProdutoService;
 	
 	private Produto produto;
@@ -44,7 +44,7 @@ public class CadastroProdutoBean implements Serializable{
 			categoriasRaizes = categorias.raizes();
 		}
 	}
-	 
+	  
 	public void carregarSubcategorias(){
 		setSubcategorias(categorias.subcategoriasDe(categoriaPai));
 	}
