@@ -11,7 +11,7 @@ import br.com.vendapedido.model.Produto;
 
 public class Produtos implements Serializable{
 
-	/**
+	/** 
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;

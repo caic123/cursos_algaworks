@@ -14,7 +14,7 @@ import br.com.vendapedido.repository.Produtos;
 public class CadastroProdutoService implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
+ 
 	@Inject
 	private Produtos produtos;
 	

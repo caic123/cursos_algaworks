@@ -44,7 +44,7 @@ public class CadastroProdutoBean implements Serializable{
 			categoriasRaizes = categorias.raizes();
 		}
 	}
-	 
+	  
 	public void carregarSubcategorias(){
 		setSubcategorias(categorias.subcategoriasDe(categoriaPai));
 	}
