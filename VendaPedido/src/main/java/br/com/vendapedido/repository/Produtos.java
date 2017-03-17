@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -17,6 +18,7 @@ import org.hibernate.criterion.Restrictions;
 
 import br.com.vendapedido.model.Produto;
 import br.com.vendapedido.repository.filter.ProdutoFilter;
+import br.com.vendapedido.service.NegocioException;
 import br.com.vendapedido.util.jpa.Transactional;
 
 public class Produtos implements Serializable{
@@ -33,6 +35,17 @@ public class Produtos implements Serializable{
 	public Produto guardar(Produto produto) {
 		
 		return  manager.merge(produto);
+	}
+	
+	@Transactional // para chamar esse metodo deve ter uma transação
+	public void remover(Produto produto){
+		try{
+		produto = porId(produto.getId());
+		manager.remove(produto);//so vai ser executado quando chamar o flush() 
+		manager.flush();
+		} catch (PersistenceException e) {
+			throw new NegocioException("Produto não pode ser excluido.");
+		}
 	}
 	
 	public Produto porSku(String sku) {

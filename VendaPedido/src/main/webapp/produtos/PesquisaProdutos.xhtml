@@ -8,7 +8,7 @@
     <ui:define name="titulo">Pesquisa de produtos</ui:define>
     
     <ui:define name="corpo">
-    	<h:form>
+    	<h:form id="frmPesquisa">
 	    	<h1>Pesquisa de produtos</h1>
 	    	
 	    	<p:messages autoUpdate="true" closable="true"/>
@@ -56,14 +56,18 @@
 	    			<p:button outcome="/produtos/CadastroProduto" icon="ui-icon-pencil" title="Editar">
 	    				<f:param name="produto" value="#{produto.id}"/>
 	    			</p:button>
-	    			<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()" />
+	    			<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()"
+	    				process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
+	    				<f:setPropertyActionListener value="#{produto}" target="#{pesquisaProdutosBean.produtoSelecionado}" />
+	    			</p:commandButton>
 	    		</p:column>
 	    	</p:dataTable>
 	    	
-	    	<p:confirmDialog header="Exclusão de produto" message="Tem certeza que deseja excluir o produto?"
-	    		widgetVar="confirmacaoExclusao">
+	    	<p:confirmDialog header="Exclusão de produto" message="Tem certeza que deseja excluir o produto#{pesquisaProdutosBean.produtoSelecionado.sku}?"
+	    		widgetVar="confirmacaoExclusao" id="confirmacaoExclusaoDialog">
 	    		<p:button value="Não" onclick="confirmacaoExclusao.hide(); return false;" />
-	    		<p:commandButton value="Sim" oncomplete="confirmacaoExclusao.hide();" />
+	    		<p:commandButton value="Sim" oncomplete="confirmacaoExclusao.hide();"
+	    			action="#{pesquisaProdutosBean.excluir}" update=":frmPesquisa:produtosTable" process="@this"/>
 	    	</p:confirmDialog>
     	</h:form>
     </ui:define>
