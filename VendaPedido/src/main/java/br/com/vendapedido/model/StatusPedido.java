@@ -2,5 +2,17 @@ package br.com.vendapedido.model;
 
 public enum StatusPedido {
 
-	ORCAMENTO, EMITIDO, CANCELADO, CARTAO_CREDITO
+	ORCAMENTO("Orçamento"),
+	EMITIDO("Emitido"),
+	CANCELADO("Cancelado");
+	
+	private String descricao; 
+	
+	private StatusPedido(String descricao) {
+		this.descricao = descricao; 
+	}
+	
+	public String getDescricao(){
+		return descricao; 
+	}
 }
