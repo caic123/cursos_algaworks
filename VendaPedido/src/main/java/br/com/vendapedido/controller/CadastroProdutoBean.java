@@ -42,6 +42,10 @@ public class CadastroProdutoBean implements Serializable{
 		//Verifica se a pagina não e postback -> se clicar no botão a pagina so vai carregar uma vez
 		if(FacesUtil.isNotPostback()){
 			categoriasRaizes = categorias.raizes();
+			
+			if(this.categoriaPai != null){
+				carregarSubcategorias();
+			}
 		}
 	}
 	  
@@ -62,12 +66,22 @@ public class CadastroProdutoBean implements Serializable{
 		subcategorias = new ArrayList<>();
 	}
 	
+	//Se o id não for nulo é porque estou editando 
+	//Metodo usado para mudar o nome "Novo Produto" ao fazer a edição
+	public boolean isEditando(){
+		return this.produto.getId() != null;
+	}
+//****************************************GET E SET*******************************************************************************************************//	
 	public Produto getProduto() {
 		return produto;
 	}
 	
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+		
+		if(this.produto != null){
+			this.categoriaPai = this.produto.getCategoria().getCategoriaPai();
+		}
 	}
 
 	public List<Categoria> getCategoriaRaizes() {

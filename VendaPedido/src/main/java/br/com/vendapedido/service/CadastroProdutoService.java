@@ -19,11 +19,11 @@ public class CadastroProdutoService implements Serializable{
 	
 	//Recebe o produto que é para salvar
 	@Transactional // Esse netodo vai ser executado dentro da transação "Transaction" do pacote jpa
-	public Produto salvar(Produto produto){
+	public Produto salvar(Produto produto){ //Metodo usado para SALVAR e EDIÇÃO
 		
 		Produto produtoExistente = produtos.porSku(produto.getSku());
 		
-		if (produtoExistente != null) {
+		if (produtoExistente != null && !produtoExistente.equals(produto)) {
 			throw new NegocioException("Já existe um produto com o SKU informado.");
 		}
 		
