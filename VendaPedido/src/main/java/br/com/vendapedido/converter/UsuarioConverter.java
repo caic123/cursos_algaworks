@@ -24,6 +24,7 @@ public class UsuarioConverter implements Converter {
 		Usuario retorno = null;
 
 		if (value != null) {
+			
 			retorno = this.usuarios.porId(new Long(value));
 		}
 
