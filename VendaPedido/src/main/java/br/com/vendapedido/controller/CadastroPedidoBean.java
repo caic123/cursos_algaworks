@@ -72,6 +72,10 @@ public class CadastroPedidoBean implements Serializable{
 		return pedido;
 	}
 
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+
 	public List<Usuario> getVendedores() {
 		return vendedores;
 	}
@@ -92,6 +96,8 @@ public class CadastroPedidoBean implements Serializable{
 		this.usuarios = usuarios;
 	}
 
-
+	public boolean isEditando(){
+		return this.pedido.getId() != null; //se nao for nulo é porque esta editando o pedido, isso vai mudar o nome da tela do pedido
+	}
 
 }
