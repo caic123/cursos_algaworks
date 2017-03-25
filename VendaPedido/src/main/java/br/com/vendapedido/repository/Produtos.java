@@ -79,5 +79,10 @@ public class Produtos implements Serializable{
 	public Produto porId(Long id) {
 		return manager.find(Produto.class, id);
 	}
+
+	public java.util.List<Produto> porNome(String nome) { //Essa query esta em JPQN e não e criteria. Mas poderia ser em criteria, não tem problema. 
+		return this.manager.createQuery("from Produto where upper(nome) like :nome", Produto.class)
+				.setParameter("nome", nome.toUpperCase() + "%").getResultList();
+	}
 	
 }

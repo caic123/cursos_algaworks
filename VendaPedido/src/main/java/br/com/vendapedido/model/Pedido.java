@@ -25,6 +25,10 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import br.com.vendapedido.model.Produto;
+
+import br.com.vendapedido.model.ItemPedido;
+
 @Entity
 @Table(name = "pedido")
 public class Pedido implements Serializable{
@@ -220,16 +224,33 @@ public class Pedido implements Serializable{
 	
 	public void recalcularValorTotal() {
 		BigDecimal total = BigDecimal.ZERO;
-
+		
 		total = total.add(this.getValorFrete()).subtract(this.getValorDesconto());
-
+		
 		for (ItemPedido item : this.getItens()) {
 			if (item.getProduto() != null && item.getProduto().getId() != null) {
 				total = total.add(item.getValorTotal());
 			}
 		}
+		
 		this.setValorTotal(total);
+	}
 
+	public void adicionarItemVazio() {
+		if (this.isOrcamento()) {// se for orçamento faça isso / orcamento é o metodo
+			Produto produto = new Produto();
+			
+			ItemPedido item = new ItemPedido();
+			item.setProduto(produto);
+			item.setPedido(this);
+			
+			this.getItens().add(0, item);
+		}
+	}
+	
+	@Transient //deve ser transient para nao entender ele como um mapeamento
+	public boolean isOrcamento(){
+		return StatusPedido.ORCAMENTO.equals(this.getStatus());
 	}
 
 }

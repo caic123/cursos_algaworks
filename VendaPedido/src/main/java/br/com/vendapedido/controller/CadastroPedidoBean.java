@@ -7,15 +7,21 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.StringUtils;
+
 import br.com.vendapedido.model.Cliente;
 import br.com.vendapedido.model.EnderecoEntrega;
 import br.com.vendapedido.model.FormaPagamento;
+import br.com.vendapedido.model.ItemPedido;
 import br.com.vendapedido.model.Pedido;
+import br.com.vendapedido.model.Produto;
 import br.com.vendapedido.model.Usuario;
 import br.com.vendapedido.repository.Clientes;
+import br.com.vendapedido.repository.Produtos;
 import br.com.vendapedido.repository.Usuarios;
 import br.com.vendapedido.service.CadastroPedidoService;
 import br.com.vendapedido.util.jsf.FacesUtil;
+import br.com.vendapedido.validation.SKU;
 
 //@RequestScoped -> quando terminar a requisição o bean morre 
 @Named
@@ -28,15 +34,20 @@ public class CadastroPedidoBean implements Serializable{
 	private Usuarios usuarios;
 	
 	@Inject
-	Clientes clientes;
+	private Clientes clientes;
 	
 	@Inject
-	CadastroPedidoService cadastroPedidoService;
+	private Produtos produtos;
+	
+	@Inject
+	private CadastroPedidoService cadastroPedidoService;
+	
+	private String sku;
 	
 	private Pedido pedido;
 	private List<Usuario> vendedores;
 	
-	private List<Integer> itens;
+	private Produto produtoLinhaEditavel;
 	
 	public CadastroPedidoBean() {
 		limpar();
@@ -45,7 +56,9 @@ public class CadastroPedidoBean implements Serializable{
 	public void inicializar() {
 		if (FacesUtil.isNotPostback()) {
 			this.vendedores = this.usuarios.vendedores();
-
+			
+			this.pedido.adicionarItemVazio();
+			
 			this.recalcularPedido();
 		}
 	}
@@ -75,6 +88,49 @@ public class CadastroPedidoBean implements Serializable{
 		}
 	}
 	
+	public List<Produto> completarProduto(String nome) {
+		return this.produtos.porNome(nome);
+	}
+	
+	public void carregarProdutoLinhaEditavel() {
+		ItemPedido item = this.pedido.getItens().get(0);
+		
+		if (this.produtoLinhaEditavel != null) {
+			if (this.existeItemComProduto(this.produtoLinhaEditavel)) {
+				FacesUtil.addErrorMessage("Já existe um item no pedido com o produto informado.");
+			} else {
+				item.setProduto(this.produtoLinhaEditavel);
+				item.setValorUnitario(this.produtoLinhaEditavel.getValorUnitario());
+				
+				this.pedido.adicionarItemVazio();
+				this.produtoLinhaEditavel = null;
+				this.sku = null;
+				
+				this.pedido.recalcularValorTotal();
+			}
+		}
+	}
+	
+	private boolean existeItemComProduto(Produto produto) {
+		boolean existeItem = false;
+		
+		for (ItemPedido item : this.getPedido().getItens()) {
+			if (produto.equals(item.getProduto())) {
+				existeItem = true;
+				break;
+			}
+		}
+		
+		return existeItem;
+	}
+	
+	public void carregarProdutoPorSku() {
+		if (StringUtils.isNotEmpty(this.sku)) {//StringUtils.isNotEmpty -> se o SKU nao fr vazio ele entra
+			this.produtoLinhaEditavel = this.produtos.porSku(this.sku);
+			this.carregarProdutoLinhaEditavel();
+		}
+	}
+	
 	//*****************GET E SET************************************************************************************************************//
 	public Pedido getPedido() {
 		return pedido;
@@ -88,14 +144,6 @@ public class CadastroPedidoBean implements Serializable{
 		return vendedores;
 	}
 
-	public List<Integer> getItens() {
-		return itens;
-	}
-
-	public void setItens(List<Integer> itens) {
-		this.itens = itens;
-	}
-	
 	public Usuarios getUsuarios() {
 		return usuarios;
 	}
@@ -106,6 +154,23 @@ public class CadastroPedidoBean implements Serializable{
 
 	public boolean isEditando(){
 		return this.pedido.getId() != null; //se nao for nulo é porque esta editando o pedido, isso vai mudar o nome da tela do pedido
+	}
+
+	public Produto getProdutoLinhaEditavel() {
+		return produtoLinhaEditavel;
+	}
+
+	public void setProdutoLinhaEditavel(Produto produtoLinhaEditavel) {
+		this.produtoLinhaEditavel = produtoLinhaEditavel;
+	}
+
+	@SKU
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 }

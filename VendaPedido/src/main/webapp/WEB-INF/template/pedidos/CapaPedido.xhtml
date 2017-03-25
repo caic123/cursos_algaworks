@@ -4,7 +4,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
 
-	<p:panelGrid columns="4" style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo, rotulo, campo">
+		<p:panelGrid columns="4" style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo, rotulo, campo">
 		<p:outputLabel value="Número" rendered="#{cadastroPedidoBean.pedido.existente}" />
 		<h:outputText value="#{cadastroPedidoBean.pedido.id}" rendered="#{cadastroPedidoBean.pedido.existente}" />
 		
@@ -23,11 +23,10 @@
             	itemValue="#{vendedor}" itemLabel="#{vendedor.nome}" />
         </p:selectOneMenu>
         
-      
         <p:outputLabel value="Cliente" for="cliente"/>
         <p:autoComplete id="cliente" size="40" dropdown="true" 
-        	value="#{cadastroPedidoBean.pedido.cliente}" completeMethod="#{cadastroPedidoBean.completarCliente}" var="cliente"
-            	itemValue="#{cliente}" itemLabel="#{cliente.nome}" forceSelection="true"/>
+        	value="#{cadastroPedidoBean.pedido.cliente}" completeMethod="#{cadastroPedidoBean.completarCliente}"
+        	var="cliente" itemLabel="#{cliente.nome}" itemValue="#{cliente}" forceSelection="true" />
         
         <p:outputLabel value="Forma de pagamento" for="formaPagamento"/>
         <p:selectOneMenu id="formaPagamento" value="#{cadastroPedidoBean.pedido.formaPagamento}">
@@ -37,11 +36,12 @@
         </p:selectOneMenu>
         
         <p:outputLabel value="Valor do frete" for="valorFrete"/>
-        <p:inputText id="valorFrete" size="10" maxlength="10" value="#{cadastroPedidoBean.pedido.valorFrete}">
-        	<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+        <p:inputText id="valorFrete" size="10" maxlength="10" styleClass="moeda" 
+        	value="#{cadastroPedidoBean.pedido.valorFrete}">
+        	<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
         	
         	<p:ajax event="change" process="@this" update="totalPedido"
-        		listener="#{cadastroPedidoBean.recalcularPedido}"/>
+        		listener="#{cadastroPedidoBean.recalcularPedido}" />
         </p:inputText>
         
         <p:outputLabel value="Subtotal" style="font-weight: bold"/>
@@ -51,14 +51,15 @@
         </h:outputText>
         
         <p:outputLabel value="Valor de desconto" for="valorDesconto"/>
-        <p:inputText id="valorDesconto" size="10" maxlength="10"  value="#{cadastroPedidoBean.pedido.valorDesconto}">
-        	<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+        <p:inputText id="valorDesconto" size="10" maxlength="10" styleClass="moeda" 
+        	value="#{cadastroPedidoBean.pedido.valorDesconto}">
+        	<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
         	
         	<p:ajax event="change" process="@this" update="totalPedido"
-        		listener="#{cadastroPedidoBean.recalcularPedido}"/>
+        		listener="#{cadastroPedidoBean.recalcularPedido}" />
         </p:inputText>
         
-       <p:outputLabel value="Total do pedido" style="font-weight: bold; font-size: 1.1em"/>
+        <p:outputLabel value="Total do pedido" style="font-weight: bold; font-size: 1.1em"/>
         <h:outputText value="#{cadastroPedidoBean.pedido.valorTotal}" 
         	style="font-weight: bold; font-size: 1.1em" id="totalPedido">
         	<f:convertNumber type="currency" />
