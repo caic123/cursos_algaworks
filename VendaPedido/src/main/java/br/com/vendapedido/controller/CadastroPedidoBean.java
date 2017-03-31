@@ -63,23 +63,22 @@ public class CadastroPedidoBean implements Serializable{
 		}
 	}
 	
-	public List<Cliente> completarCliente(String nome){
-		return this.clientes.porNome(nome);
-	}
-	
-	private void limpar(){
+	private void limpar() {
 		pedido = new Pedido();
 		pedido.setEnderecoEntrega(new EnderecoEntrega());
 	}
 	
 	public void salvar() {
-		this.pedido = this.cadastroPedidoService.salvar(this.pedido);
+		this.pedido.removerItemVazio();
 		
-		FacesUtil.addInfoMessage("Pedido salvo com sucesso!");
-	}
-
-	public FormaPagamento[] getFormasPagamento(){
-		return FormaPagamento.values();
+		try {
+			this.pedido = this.cadastroPedidoService.salvar(this.pedido);
+			FacesUtil.addInfoMessage("Pedido salvo com sucesso!");
+			
+		} finally {
+			this.pedido.adicionarItemVazio();
+		}
+		
 	}
 	
 	public void recalcularPedido() {
@@ -88,8 +87,11 @@ public class CadastroPedidoBean implements Serializable{
 		}
 	}
 	
-	public List<Produto> completarProduto(String nome) {
-		return this.produtos.porNome(nome);
+	public void carregarProdutoPorSku() {
+		if (StringUtils.isNotEmpty(this.sku)) {
+			this.produtoLinhaEditavel = this.produtos.porSku(this.sku);
+			this.carregarProdutoLinhaEditavel();
+		}
 	}
 	
 	public void carregarProdutoLinhaEditavel() {
@@ -124,18 +126,34 @@ public class CadastroPedidoBean implements Serializable{
 		return existeItem;
 	}
 	
-	public void carregarProdutoPorSku() {
-		if (StringUtils.isNotEmpty(this.sku)) {//StringUtils.isNotEmpty -> se o SKU nao fr vazio ele entra
-			this.produtoLinhaEditavel = this.produtos.porSku(this.sku);
-			this.carregarProdutoLinhaEditavel();
+	public void atualizarQuantidade(ItemPedido item, int linha){
+		if(item.getQuantidade() <1 ){
+			if(linha == 0){
+				item.setQuantidade(1); // ele não vai apagar a primeira linha, pois é nela que insere os pedidos. 
+			}else{
+				this.getPedido().getItens().remove(linha); // se colocar a quantidade do pedido 0 ele vai remover o pedido.
+			}
 		}
+		
+		this.pedido.recalcularValorTotal();
+	}
+
+	public List<Produto> completarProduto(String nome) {
+		return this.produtos.porNome(nome);
 	}
 	
-	//*****************GET E SET************************************************************************************************************//
+	public FormaPagamento[] getFormasPagamento() {
+		return FormaPagamento.values();
+	}
+	
+	public List<Cliente> completarCliente(String nome) {
+		return this.clientes.porNome(nome);
+	}
+
 	public Pedido getPedido() {
 		return pedido;
 	}
-
+	
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
@@ -143,17 +161,9 @@ public class CadastroPedidoBean implements Serializable{
 	public List<Usuario> getVendedores() {
 		return vendedores;
 	}
-
-	public Usuarios getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(Usuarios usuarios) {
-		this.usuarios = usuarios;
-	}
-
-	public boolean isEditando(){
-		return this.pedido.getId() != null; //se nao for nulo é porque esta editando o pedido, isso vai mudar o nome da tela do pedido
+	
+	public boolean isEditando() {
+		return this.pedido.getId() != null;
 	}
 
 	public Produto getProdutoLinhaEditavel() {

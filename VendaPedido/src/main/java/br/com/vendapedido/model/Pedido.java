@@ -25,13 +25,20 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import br.com.vendapedido.model.Cliente;
+import br.com.vendapedido.model.EnderecoEntrega;
+import br.com.vendapedido.model.FormaPagamento;
+import br.com.vendapedido.model.Pedido;
+import br.com.vendapedido.model.StatusPedido;
+import br.com.vendapedido.model.Usuario;
+
 import br.com.vendapedido.model.Produto;
 
 import br.com.vendapedido.model.ItemPedido;
 
 @Entity
 @Table(name = "pedido")
-public class Pedido implements Serializable{
+public class Pedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,9 +65,9 @@ public class Pedido implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-  
+
 	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)//data hora
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_criacao", nullable = false)
 	public Date getDataCriacao() {
 		return dataCriacao;
@@ -79,7 +86,7 @@ public class Pedido implements Serializable{
 		this.observacao = observacao;
 	}
 
-	@NotNull // Não pode ser nulo
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_entrega", nullable = false)
 	public Date getDataEntrega() {
@@ -172,7 +179,7 @@ public class Pedido implements Serializable{
 	public void setEnderecoEntrega(EnderecoEntrega enderecoEntrega) {
 		this.enderecoEntrega = enderecoEntrega;
 	}
-	//Como ja mapiei o pedido ai faço o inverso // devo salvar tudo, so salva depois que salvar os itesns do pedido...
+
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<ItemPedido> getItens() {
 		return itens;
@@ -181,7 +188,7 @@ public class Pedido implements Serializable{
 	public void setItens(List<ItemPedido> itens) {
 		this.itens = itens;
 	}
-	
+
 	@Transient
 	public boolean isNovo() {
 		return getId() == null;
@@ -191,7 +198,7 @@ public class Pedido implements Serializable{
 	public boolean isExistente() {
 		return !isNovo();
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -218,7 +225,7 @@ public class Pedido implements Serializable{
 	}
 
 	@Transient
-	public BigDecimal getValorSubtotal(){
+	public BigDecimal getValorSubtotal() {
 		return this.getValorTotal().subtract(this.getValorFrete()).add(this.getValorDesconto());
 	}
 	
@@ -247,10 +254,30 @@ public class Pedido implements Serializable{
 			this.getItens().add(0, item);
 		}
 	}
-	
-	@Transient //deve ser transient para nao entender ele como um mapeamento
-	public boolean isOrcamento(){
+
+	@Transient
+	public boolean isOrcamento() {
 		return StatusPedido.ORCAMENTO.equals(this.getStatus());
+	}
+
+	public void removerItemVazio() {
+		ItemPedido primeiroItem = this.getItens().get(0);
+		
+		if(primeiroItem != null && primeiroItem.getProduto().getId() == null){
+			this.getItens().remove(0);
+		}
+		
+	}
+
+	@Transient
+	public boolean isValorTotalNegativo() {
+		
+		return this.getValorTotal().compareTo(BigDecimal.ZERO) < 0;
+	}
+	
+	@Transient
+	public boolean isEmitido(){
+		return StatusPedido.EMITIDO.equals(this.getStatus());
 	}
 
 }

@@ -44,10 +44,9 @@ public class Produto implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	//@NotBlank = espaço ignorado
+
 	@NotBlank
-	@Size(max = 80) // Nummero maximo de caracteres
+	@Size(max = 80)
 	@Column(nullable = false, length = 80)
 	public String getNome() {
 		return nome;
@@ -56,8 +55,8 @@ public class Produto implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-						
-	@NotBlank @SKU 
+
+	@NotBlank @SKU
 	@Column(nullable = false, length = 20, unique = true)
 	public String getSku() {
 		return sku;
@@ -76,7 +75,7 @@ public class Produto implements Serializable {
 	public void setValorUnitario(BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
-	//valor nulo = NotNull
+
 	@NotNull @Min(0) @Max(value = 9999, message = "tem um valor muito alto")
 	@Column(name="quantidade_estoque", nullable = false, length = 5)
 	public Integer getQuantidadeEstoque() {
