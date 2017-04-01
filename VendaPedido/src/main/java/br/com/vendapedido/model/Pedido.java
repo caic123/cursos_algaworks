@@ -244,7 +244,7 @@ public class Pedido implements Serializable {
 	}
 
 	public void adicionarItemVazio() {
-		if (this.isOrcamento()) {// se for orçamento faça isso / orcamento é o metodo
+		if (this.isOrcamento()) {// se for orçamento faça isso / orcamento é um metodo
 			Produto produto = new Produto();
 			
 			ItemPedido item = new ItemPedido();
@@ -278,6 +278,16 @@ public class Pedido implements Serializable {
 	@Transient
 	public boolean isEmitido(){
 		return StatusPedido.EMITIDO.equals(this.getStatus());
+	}
+
+	@Transient
+	public boolean isNaoEmissivel() {
+		return !this.isEmissivel();
+	}
+	
+	@Transient
+	public boolean isEmissivel(){
+		return this.isExistente() && this.isOrcamento();
 	}
 
 }

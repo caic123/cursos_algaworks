@@ -20,6 +20,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import br.com.vendapedido.model.Categoria;
 import br.com.vendapedido.model.Produto;
+import br.com.vendapedido.service.NegocioException;
 import br.com.vendapedido.validation.SKU;
 
 @Entity
@@ -120,6 +121,17 @@ public class Produto implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public void baixarEstoque(Integer quantidade) {
+		int novaQuantidade = this.getQuantidadeEstoque() - quantidade;
+		
+		if (novaQuantidade < 0) {
+			throw new NegocioException("Não há disponibilidade no estoque de "
+					+ quantidade + " itens do produto " + this.getSku() + ".");
+		}
+		
+		this.setQuantidadeEstoque(novaQuantidade);
 	}
 
 }

@@ -57,7 +57,6 @@ public class Pedidos implements Serializable {
 		}
 		
 		if (StringUtils.isNotBlank(filtro.getNomeVendedor())) {
-			//ilike() é case-insensitive, ou seja, maiúsculas ou minúsculas são desprezadas //ANYWHERE -> Qualquer parte da String
 			// acessamos o nome do vendedor associado ao pedido pelo alias "v", criado anteriormente
 			criteria.add(Restrictions.ilike("v.nome", filtro.getNomeVendedor(), MatchMode.ANYWHERE));
 		}
