@@ -244,7 +244,7 @@ public class Pedido implements Serializable {
 	}
 
 	public void adicionarItemVazio() {
-		if (this.isOrcamento()) {// se for orçamento faça isso / orcamento é um metodo
+		if (this.isOrcamento()) {
 			Produto produto = new Produto();
 			
 			ItemPedido item = new ItemPedido();
@@ -263,20 +263,18 @@ public class Pedido implements Serializable {
 	public void removerItemVazio() {
 		ItemPedido primeiroItem = this.getItens().get(0);
 		
-		if(primeiroItem != null && primeiroItem.getProduto().getId() == null){
+		if (primeiroItem != null && primeiroItem.getProduto().getId() == null) {
 			this.getItens().remove(0);
 		}
-		
 	}
 
 	@Transient
 	public boolean isValorTotalNegativo() {
-		
 		return this.getValorTotal().compareTo(BigDecimal.ZERO) < 0;
 	}
-	
+
 	@Transient
-	public boolean isEmitido(){
+	public boolean isEmitido() {
 		return StatusPedido.EMITIDO.equals(this.getStatus());
 	}
 
@@ -284,19 +282,14 @@ public class Pedido implements Serializable {
 	public boolean isNaoEmissivel() {
 		return !this.isEmissivel();
 	}
-	
+
 	@Transient
-	public boolean isEmissivel(){
+	public boolean isEmissivel() {
 		return this.isExistente() && this.isOrcamento();
 	}
 
 	@Transient
-	public boolean isNaoCancelavel() {
-		return !this.isCancelavel();
-	}
-	
-	@Transient
-	public boolean isCancelavel(){
+	public boolean isCancelavel() {
 		return this.isExistente() && !this.isCancelado();
 	}
 
@@ -306,13 +299,23 @@ public class Pedido implements Serializable {
 	}
 
 	@Transient
-	public boolean isNaoAlteravel() {
-		return !this.isAltetavel();
+	public boolean isNaoCancelavel() {
+		return !this.isCancelavel();
 	}
 
 	@Transient
-	private boolean isAltetavel() {
+	public boolean isAlteravel() {
 		return this.isOrcamento();
 	}
-
+	
+	@Transient
+	public boolean isNaoAlteravel() {
+		return !this.isAlteravel();
+	}
+	
+	@Transient
+	public boolean isNaoEnviavelPorEmail() {
+		return this.isNovo() || this.isCancelado();
+	}
+	
 }
