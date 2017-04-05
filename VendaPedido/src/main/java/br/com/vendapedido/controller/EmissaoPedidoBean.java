@@ -2,6 +2,7 @@ package br.com.vendapedido.controller;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Event;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -15,7 +16,7 @@ import br.com.vendapedido.service.EmissaoPedidoService;
 import br.com.vendapedido.util.jsf.FacesUtil;
 
 @Named
-@ViewScoped
+@RequestScoped
 public class EmissaoPedidoBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
