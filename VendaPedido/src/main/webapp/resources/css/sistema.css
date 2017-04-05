@@ -114,3 +114,7 @@ h1 {
     background: url(#{resource['images:seta-para-baixo.png']}) no-repeat;
 }
 /* Menu sistema fim */
+
+.ui-state-disable {
+	opacity: .80 !important;
+}
