@@ -6,6 +6,8 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.1.xsd">
          
+     
+     <beans:bean id="appUserDetailsService" class="br.com.vendapedido.security.AppUserDetailsService"/>
          
      <!-- permitir ver o o que tem em javax faces -  imagens e tudo mais -->
      <http pattern="/javax.faces.resource/**" security="none"/>    
@@ -23,11 +25,7 @@
 	</http>
 	
 	<authentication-manager>
-		<authentication-provider>
-			<user-service>		<!-- SO Vai TER ACESSO A VENDEDORES -->
-				<user name="joao" password="joao" authorities="VENDEDORES" />
-				<user name="manoel" password="manoel" authorities="ADMINISTRADORES" />
-			</user-service>
+		<authentication-provider user-service-ref="appUserDetailsService">
 		</authentication-provider>
 	</authentication-manager>
            
