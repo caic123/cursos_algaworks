@@ -29,11 +29,11 @@ public class EnvioPedidoEmailBean implements Serializable{
 	@Inject
 	@PedidoEdicao
 	private Pedido pedido;
-	
+	 
 	public void enviarPedido() {
 		MailMessage message = mailer.novaMensagem();
 		
-		message.to("cspassos.vendas1@gmail.com")
+		message.to("teste.vendas1@gmail.com")
 			.subject("Pedido " + this.pedido.getId())
 			.bodyHtml(new VelocityTemplate(getClass().getResourceAsStream("/emails/pedido.template")))// vai pegar o pedido.template para jogar no email
 			.put("pedido", this.pedido)
