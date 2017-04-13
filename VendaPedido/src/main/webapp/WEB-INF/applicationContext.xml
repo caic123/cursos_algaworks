@@ -47,6 +47,7 @@
 		<!-- hasAnyRole -> mostra quem tem acesso a pedidos -->
 		<intercept-url pattern="/pedidos/**" access="hasAnyRole('VENDEDORES', 'AUXILIARES', 'ADMINISTRADORES')"/> 
 		<intercept-url pattern="/produtos/**" access="hasAnyRole('ADMINISTRADORES')"/>
+		<intercept-url pattern="/relatorios/**" access="hasAnyRole('ADMINISTRADORES')" />
 		<!-- Ninguem tem acesso -->
 		<intercept-url pattern="/**" access="denyAll"/>
 		
